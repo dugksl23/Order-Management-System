@@ -1,10 +1,25 @@
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+
+
   h2:
     console:
       enabled: true
       path: /h2-console
   datasource:
-    url: jdbc:h2:mem:test
-    driverClassName: org.h2.Driver
-    username: user
+    url: jdbc:h2:file:~/onbiardingdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: USER
     password: 1234
