@@ -2,7 +2,11 @@ package com.example.onboarding.order.dto;
 
 
 import com.example.onboarding.order.entity.OrderEntity;
-import lombok.*;
+import com.example.onboarding.order.statics.UsageStatusConfiguration;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,8 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderRequestDto {
 
-    @NotNull
-    private int orderNumber;
+
     @NotNull
     private String orderer;
     @NotNull
@@ -20,10 +23,9 @@ public class OrderRequestDto {
     @NotNull
     private String storeAddress;
     @NotNull
-    private boolean usageStatus = false;
+    private boolean usageStatus = UsageStatusConfiguration.USAGE_STATUS;
 
-    public OrderRequestDto(int orderNumber, String orderer, String storeName, String storeAddress, boolean usageStatus) {
-        this.orderNumber = orderNumber;
+    public OrderRequestDto(String orderer, String storeName, String storeAddress, boolean usageStatus) {
         this.orderer = orderer;
         this.storeName = storeName;
         this.storeAddress = storeAddress;
@@ -33,7 +35,6 @@ public class OrderRequestDto {
     public OrderEntity toEntity() {
 
         return OrderEntity.builder()
-                .orderNumber(orderNumber)
                 .orderer(orderer)
                 .storeName(storeName)
                 .storeAddress(storeAddress)

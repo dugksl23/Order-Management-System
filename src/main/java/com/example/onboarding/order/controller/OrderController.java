@@ -23,9 +23,6 @@ public class OrderController {
     private final OrderService orderService;
     private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-//    public OrderController(OrderService orderService) {
-//        this.orderService = orderService;
-//    }
 
     @GetMapping("/{order-number}")
     public ResponseEntity<?> fetchOrder(@PathVariable("order-number") int orderNumber) {
@@ -44,17 +41,17 @@ public class OrderController {
     }
 
 
-    @PostMapping(value = "/registration")
+    @PostMapping(value = "")
     public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto orderDto) {
-        logger.error("error {}", orderDto.getOrderNumber());
+
         int orderNumber = orderService.registerOrder(orderDto);
         return new ResponseEntity<>(orderNumber, HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/order/{order-number}")
+    @DeleteMapping("/{order-number}")
     public ResponseEntity<?> deleteOrder(@PathVariable("order-number") int orderNumber) {
-
+        System.out.println("orderNumber : " + orderNumber);
         orderService.deleteOrder(orderNumber);
         return new ResponseEntity<>(HttpStatus.OK);
 

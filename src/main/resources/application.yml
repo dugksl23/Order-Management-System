@@ -1,4 +1,10 @@
 spring:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force-response: true
+
+
   jpa:
     hibernate:
       ddl-auto: none
