@@ -4,11 +4,10 @@ package com.example.onboarding.store.controller;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.service.StoreService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,10 +20,11 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @GetMapping("/store/{storeNumber}")
-    public ResponseEntity<?> searchStoreInfo(int storeNumber) {
+    @GetMapping("/{store-number}")
+    public ResponseEntity<?> findStore(@PathVariable("store-number") int storeNumber) {
+        StoreResponseDto storeResponseDto = storeService.findStore(storeNumber);
+        System.out.println("storeNumber : "+storeResponseDto);
 
-        StoreResponseDto storeResponseDto = storeService.searchStore(storeNumber);
         return new ResponseEntity<>(storeResponseDto, HttpStatus.OK);
 
     }
@@ -38,8 +38,8 @@ public class StoreController {
     }
 
 
-    @PostMapping("/store")
-    public ResponseEntity<?> registerStore(@Valid StoreRequestDto requestDto) {
+    @PostMapping("")
+    public ResponseEntity<?> registerStore(@RequestBody StoreRequestDto requestDto) {
 
         int storeNumber = storeService.registerStore(requestDto);
         return new ResponseEntity<>(storeNumber, HttpStatus.OK);
@@ -47,14 +47,15 @@ public class StoreController {
     }
 
     @PutMapping("/updateStore")
-    public ResponseEntity<?> updateStore(StoreRequestDto requestDto) {
+    public ResponseEntity<?> updateStore(@Valid StoreRequestDto requestDto) {
 
         storeService.updateStore(requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/deleteStore/{store-number}")
+    @DeleteMapping("{store-number}")
+    @Transactional
     public ResponseEntity<?> deleteStore(@PathVariable("store-number") int storeNumber) {
 
         storeService.deleteStore(storeNumber);

@@ -4,12 +4,13 @@ package com.example.onboarding.order.dto;
 import com.example.onboarding.order.entity.OrderEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
+@Setter
 public class OrderResponseDto {
 
     private int orderNumber;

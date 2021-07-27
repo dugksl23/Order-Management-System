@@ -2,10 +2,14 @@ package com.example.onboarding.store.dto;
 
 
 import com.example.onboarding.store.entity.StoreEntity;
-import org.springframework.http.ResponseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
+@Getter
+@Setter
 public class StoreResponseDto {
 
     private int StoreNumber;
