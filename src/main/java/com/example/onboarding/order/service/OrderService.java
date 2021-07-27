@@ -5,7 +5,7 @@ import com.example.onboarding.order.dto.OrderRequestDto;
 import com.example.onboarding.order.dto.OrderResponseDto;
 import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.order.repository.OrderRepository;
-import com.example.onboarding.order.statics.UsageStatusConfiguration;
+import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

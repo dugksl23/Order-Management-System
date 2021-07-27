@@ -23,35 +23,34 @@ public class OrderController {
     private final OrderService orderService;
     private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-
     @GetMapping("/{order-number}")
     public ResponseEntity<?> fetchOrder(@PathVariable("order-number") int orderNumber) {
 
-        OrderResponseDto response = orderService.fetchOrder(orderNumber);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        OrderResponseDto orderResponseDto = orderService.fetchOrder(orderNumber);
+        return new ResponseEntity<>(orderResponseDto, HttpStatus.OK);
 
     }
 
     @GetMapping("/orderList")
     public ResponseEntity<?> fetchAll() {
 
-        List<OrderResponseDto> response = orderService.fetchAll();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        List<OrderResponseDto> orderResponseList = orderService.fetchAll();
+        return new ResponseEntity<>(orderResponseList, HttpStatus.OK);
 
     }
 
 
     @PostMapping(value = "")
-    public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto orderDto) {
+    public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto requestDto) {
 
-        int orderNumber = orderService.registerOrder(orderDto);
+        int orderNumber = orderService.registerOrder(requestDto);
         return new ResponseEntity<>(orderNumber, HttpStatus.OK);
 
     }
 
     @DeleteMapping("/{order-number}")
     public ResponseEntity<?> deleteOrder(@PathVariable("order-number") int orderNumber) {
-        System.out.println("orderNumber : " + orderNumber);
+
         orderService.deleteOrder(orderNumber);
         return new ResponseEntity<>(HttpStatus.OK);
 

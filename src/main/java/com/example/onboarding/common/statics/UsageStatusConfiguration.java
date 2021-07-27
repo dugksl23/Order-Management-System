@@ -1,4 +1,4 @@
-package com.example.onboarding.order.statics;
+package com.example.onboarding.common.statics;
 
 public class UsageStatusConfiguration {
 

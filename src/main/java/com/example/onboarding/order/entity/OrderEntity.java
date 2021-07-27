@@ -33,5 +33,4 @@ public class OrderEntity {
     @JoinColumn(name = "storeNo")
     private StoreEntity stores;
 
-
 }

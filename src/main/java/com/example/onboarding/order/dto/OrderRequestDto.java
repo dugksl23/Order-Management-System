@@ -2,7 +2,7 @@ package com.example.onboarding.order.dto;
 
 
 import com.example.onboarding.order.entity.OrderEntity;
-import com.example.onboarding.order.statics.UsageStatusConfiguration;
+import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderRequestDto {
 
