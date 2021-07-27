@@ -38,7 +38,7 @@ public class StoreServiceTest {
     public void updateStoreTest() throws Exception {
 
         // given...
-        int storeNumber = 2;
+        int storeNumber = 3;
         String address = "강남구";
 
         // when...
@@ -48,15 +48,16 @@ public class StoreServiceTest {
         StoreResponseDto storeDto = new StoreResponseDto(storeEntity);
         storeDto.setAddress(address);
 
-        StoreEntity entity = StoreEntity.builder()
-                .storeNumber(storeDto.getStoreNumber())
-                .name(storeDto.getName())
-                .entryDate(storeDto.getEntryDate())
-                .contactNumber(storeDto.getContactNumber())
-                .address(storeDto.getAddress())
-                .usageStatus(storeDto.isUsageStatus())
-                .build();
+//        StoreEntity entity = StoreEntity.builder()
+//                .storeNumber(storeDto.getStoreNumber())
+//                .name(storeDto.getName())
+//                .entryDate(storeDto.getEntryDate())
+//                .contactNumber(storeDto.getContactNumber())
+//                .address(storeDto.getAddress())
+//                .usageStatus(storeDto.isUsageStatus())
+//                .build();
 
+        StoreEntity entity = storeEntity.update(storeDto);
         StoreEntity responseEntity = storeRepositoryTest.save(entity);
 
         // then...

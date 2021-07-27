@@ -43,7 +43,7 @@ public class StoreControllerTest {
                 .build();
     }
 
-    //@Test
+    @Test
     @DisplayName("식당 정보 등록 Test")
     public void registerStoreTest() throws Exception {
 
@@ -93,7 +93,7 @@ public class StoreControllerTest {
 
     }
 
-    @Test
+    //@Test
     @DisplayName("식당 정보 모두 조회 Test")
     public void fetchAllTest() throws Exception {
 
@@ -112,7 +112,7 @@ public class StoreControllerTest {
 
     }
 
-    @Test
+    //@Test
     @DisplayName("식당 정보 삭제 Test")
     public void deleteStoreTest() throws Exception {
 
