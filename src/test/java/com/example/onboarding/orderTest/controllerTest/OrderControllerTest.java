@@ -79,7 +79,7 @@ public class OrderControllerTest {
     public void fetchOrderTest() throws Exception {
 
         // given...
-        int orderNumber = 1;
+        int orderNumber = 11;
 
         // when...
         MvcResult result = mvc.perform(

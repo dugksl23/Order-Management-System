@@ -37,11 +37,11 @@ public class StoreResponseDto {
         this.contactNumber = storeEntity.getContactNumber();
         this.address = storeEntity.getAddress();
         this.usageStatus = storeEntity.isUsageStatus();
-        this.orders = this.toReResponseDtoList(storeEntity);
+        this.orders = this.toOrderResponseDtoList(storeEntity);
 
     }
 
-    private List<OrderResponseDto> toReResponseDtoList(StoreEntity storeEntity) {
+    private List<OrderResponseDto> toOrderResponseDtoList(StoreEntity storeEntity) {
 
         List<OrderResponseDto> orderResponseDtoList = storeEntity.getOrders().stream()
                 .map(orderEntity -> new OrderResponseDto(orderEntity))
