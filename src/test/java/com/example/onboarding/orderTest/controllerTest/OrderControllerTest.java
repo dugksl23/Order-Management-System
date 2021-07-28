@@ -58,7 +58,7 @@ public class OrderControllerTest {
     public void registerOrderTest() throws Exception {
 
         // given...
-        OrderRequestDto requestDtoTest = new OrderRequestDto("YH", "백종원의 불백집", "종로구,", false);
+        OrderRequestDto requestDtoTest = new OrderRequestDto("VISA", false);
 
         // when...
         MvcResult result = mvc.perform(
@@ -125,7 +125,7 @@ public class OrderControllerTest {
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.delete("/order/"+orderNumber)
+                MockMvcRequestBuilders.delete("/order/" + orderNumber)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())
@@ -137,7 +137,6 @@ public class OrderControllerTest {
         logger.error("error {}", content);
 
     }
-
 
 
 }

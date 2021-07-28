@@ -14,20 +14,14 @@ public class OrderRequestDto {
 
 
     @NotNull
-    private String orderer;
-    @NotNull
-    private String storeName;
-    @NotNull
-    private String storeAddress;
+    private String card;
     @NotNull
     private boolean usageStatus = UsageStatusConfiguration.USAGE_STATUS;
 
     public OrderEntity toEntity() {
 
         return OrderEntity.builder()
-                .orderer(orderer)
-                .storeName(storeName)
-                .storeAddress(storeAddress)
+                .card(card)
                 .usageStatus(usageStatus)
                 .build();
     }

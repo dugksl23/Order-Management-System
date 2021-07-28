@@ -1,7 +1,11 @@
 package com.example.onboarding.storeTest.controllerTest;
 
 
+import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import com.example.onboarding.store.dto.StoreRequestDto;
+import com.example.onboarding.store.dto.StoreResponseDto;
+import com.example.onboarding.store.entity.StoreEntity;
+import com.example.onboarding.store.service.StoreService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -34,6 +39,10 @@ public class StoreControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private StoreService storeService;
+
+
     @BeforeEach
     @DisplayName("MockMvc 객체 DI 및 UTF 설정")
     public void setup() {
@@ -45,24 +54,28 @@ public class StoreControllerTest {
 
     }
 
-    @Test
+    //@Test
     @DisplayName("식당 정보 등록 Test")
     public void registerStoreTest() throws Exception {
 
         // given...
-        StoreRequestDto storeRequestDtoTest = new StoreRequestDto("백종원의 백반집", 2233, "종로구", false);
+        for (int i = 0; i < 10; i++) {
 
-        // when...
-        MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/store")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(storeRequestDtoTest))
-                        //.param("name",name)
-                        .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk())
-                //.andExpect(jsonPath("name").value(name))
-                .andDo(print())
-                .andReturn();
+            StoreRequestDto storeRequestDtoTest = new StoreRequestDto(0, "백종원의 백반집" + i, 2233, "종로구", false);
+
+            // when...
+            MvcResult result = mvc.perform(
+                    MockMvcRequestBuilders.post("/store")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(storeRequestDtoTest))
+                            //.param("name",name)
+                            .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+                    //.andExpect(jsonPath("name").value(name))
+                    .andDo(print())
+                    .andReturn();
+
+        }
 
         // @ModelAttribute는 request의 Body의 값을 dto 객체로 바인딩하지 못한다.
         // 파라미터로 값으로 dto객체의 field에 바인딩을 하는 방식이다. 또한 dto에는 setter가 있어야 한다.
@@ -70,7 +83,7 @@ public class StoreControllerTest {
 
     }
 
-    //@Test
+    @Test
     @DisplayName("식당 정보 조회 Test")
     public void findStoreTest() throws Exception {
 
@@ -88,10 +101,6 @@ public class StoreControllerTest {
 
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
-        System.out.println(content);
-
-        //int storeNumberExpected = Integer.parseInt(parser.parse(content).getAsJsonObject().get("storeNumber").toString());
-        //Assert.assertEquals("number : ",storeNumberExpected, storeNumber);
 
     }
 
@@ -110,7 +119,6 @@ public class StoreControllerTest {
 
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
-        System.out.println(content);
 
     }
 
@@ -123,7 +131,7 @@ public class StoreControllerTest {
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.delete("/store/"+storeNumber)
+                MockMvcRequestBuilders.delete("/store/" + storeNumber)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())
@@ -132,8 +140,35 @@ public class StoreControllerTest {
 
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
-        System.out.println(content);
 
     }
+
+    //@Test
+    @DisplayName("식당 정보 수정 Test")
+    public void updateStoreTest() throws Exception {
+
+        // given...
+        int storeNumber = 1;
+        StoreResponseDto dto = storeService.fetchStore(storeNumber);
+        dto.setAddress("강남구");
+        dto.setName("백종원의 국밥집");
+
+
+
+        // when...
+        MvcResult result = mvc.perform(
+                MockMvcRequestBuilders.put("/store/" + storeNumber)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        Assert.assertNotNull(content);
+
+    }
+
 
 }

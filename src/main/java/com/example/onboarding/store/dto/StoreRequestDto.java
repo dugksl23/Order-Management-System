@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 public class StoreRequestDto {
 
     @NotNull
+    private int storeNumber;
+    @NotNull
     private String name;
     @NotNull
     private int contactNumber;
@@ -24,6 +26,7 @@ public class StoreRequestDto {
 
     public StoreEntity toStoreEntity() {
         return StoreEntity.builder()
+                .storeNumber(storeNumber)
                 .name(name)
                 .contactNumber(contactNumber)
                 .address(address)

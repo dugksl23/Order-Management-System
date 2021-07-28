@@ -7,7 +7,6 @@ import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.entity.StoreEntity;
 import com.example.onboarding.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,13 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-    public StoreResponseDto findStore(int storeNumber) {
+    @Transactional
+    public StoreResponseDto fetchStore(int storeNumber) {
 
         StoreEntity storeEntity = storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
-        return new StoreResponseDto(storeEntity);
+        StoreResponseDto storeResponseDto = new StoreResponseDto(storeEntity);
+
+        return storeResponseDto;
 
     }
 
@@ -41,7 +43,6 @@ public class StoreService {
     }
 
 
-
     @Transactional
     public int registerStore(StoreRequestDto StoreRequestDto) {
 
@@ -51,21 +52,30 @@ public class StoreService {
     }
 
     @Transactional
-    public ResponseEntity<?> updateStore(StoreRequestDto requestDto) {
+    public ResponseEntity<?> updateStore(int storeNumber, StoreRequestDto storeRequestDto) {
 
-        StoreEntity storeEntity = requestDto.toStoreEntity();
-        storeRepository.save(storeEntity);
+        StoreEntity storeEntity = storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+        storeEntity.update(storeRequestDto.getName(), storeRequestDto.getContactNumber(), storeRequestDto.getAddress());
+
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-
+    @Transactional
     public ResponseEntity<?> deleteStore(int storeNumber) {
 
         StoreEntity storeEntity = storeRepository.findById(storeNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
-        storeRepository.updateUsageStatus(storeEntity.getStoreNumber());
+        storeEntity.update(storeEntity.getName(), storeEntity.getContactNumber(), storeEntity.getAddress());
+        //storeRepository.updateUsageStatus(storeEntity.getStoreNumber());
+        // transactional annotation 덕분에 영속성이 전이가 되고 있기에 save 함수는 불필요하다.
+
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    public StoreEntity findByStoreNumber(int storeNumber) {
+
+        return storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).get();
     }
 
 

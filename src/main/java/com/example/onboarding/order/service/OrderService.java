@@ -6,6 +6,7 @@ import com.example.onboarding.order.dto.OrderResponseDto;
 import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.order.repository.OrderRepository;
 import com.example.onboarding.common.statics.UsageStatusConfiguration;
+import com.example.onboarding.store.entity.StoreEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class OrderService {
     public OrderResponseDto fetchOrder(int orderNumber) {
 
         OrderEntity orderEntity = orderRepository.findByOrderNumberAndUsageStatus(orderNumber, UsageStatusConfiguration.USAGE_STATUS).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+
         return new OrderResponseDto(orderEntity);
 
     }
@@ -41,6 +43,7 @@ public class OrderService {
 
         OrderEntity orderEntity = orderDto.toEntity();
         OrderEntity response = orderRepository.save(orderEntity);
+
         return response.getOrderNumber();
     }
 
@@ -49,6 +52,12 @@ public class OrderService {
 
         OrderEntity orderEntity = orderRepository.findById(orderNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
         orderRepository.deleteOrderStatus(orderEntity.getOrderNumber());
+
+    }
+
+    public OrderEntity findByOrderNumber(int storeNumber) {
+
+        return orderRepository.findByOrderNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).get();
 
     }
 

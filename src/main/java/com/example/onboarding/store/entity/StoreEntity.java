@@ -2,14 +2,12 @@ package com.example.onboarding.store.entity;
 
 
 import com.example.onboarding.order.entity.OrderEntity;
-import com.example.onboarding.store.dto.StoreResponseDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,18 +17,21 @@ import java.util.Collection;
 public class StoreEntity {
 
     @Id
+    @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int storeNumber;
+
     private String name;
+
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime entryDate;
     private int contactNumber;
     private String address;
     private boolean usageStatus;
 
-    //부모 entity 에서는 OneToMany, 관계의 주인은 자식
-    @OneToMany(mappedBy = "stores")
-    private Collection<OrderEntity> orders;
+    @OneToMany(mappedBy = "stores") // many이기에 list
+    private List<OrderEntity> orders;
 
     public void update(String name, int contactNumber, String address) {
 

@@ -17,20 +17,27 @@ import java.time.LocalDateTime;
 public class OrderEntity {
 
     @Id
+    @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderNumber;
-    private String orderer;
+    private String card;
+
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime orderDateCreated;
     @UpdateTimestamp
     private LocalDateTime orderDateUpdated;
-    private String storeName;
-    private String storeAddress;
     private boolean usageStatus;
 
     // 자식 Entity에서는 ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "storeNo")
+    @JoinColumn(name = "storeNumber")
     private StoreEntity stores;
+
+    public void setStore(StoreEntity storeEntity){
+
+        this.stores = storeEntity;
+
+    }
 
 }

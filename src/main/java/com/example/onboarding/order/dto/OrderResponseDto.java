@@ -14,20 +14,17 @@ import java.time.LocalDateTime;
 public class OrderResponseDto {
 
     private int orderNumber;
-    private String orderer;
+    private String card;
     private LocalDateTime orderDateCreated;
     private LocalDateTime orderDateUpdated;
-    private String storeName;
-    private String storeAddress;
     private boolean usageStatus;
 
     public OrderResponseDto(OrderEntity orderEntity) {
+
         this.orderNumber = orderEntity.getOrderNumber();
-        this.orderer = orderEntity.getOrderer();
+        this.card = orderEntity.getCard();
         this.orderDateCreated = orderEntity.getOrderDateCreated();
         this.orderDateUpdated = orderEntity.getOrderDateUpdated();
-        this.storeName = orderEntity.getStoreName();
-        this.storeAddress = orderEntity.getStoreAddress();
         this.usageStatus = orderEntity.isUsageStatus();
 
     }

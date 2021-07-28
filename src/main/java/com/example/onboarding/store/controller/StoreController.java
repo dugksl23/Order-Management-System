@@ -1,10 +1,13 @@
 package com.example.onboarding.store.controller;
 
 
+import com.example.onboarding.order.controller.OrderController;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +22,14 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
+    private Logger logger = LoggerFactory.getLogger(OrderController.class);
+
 
     @GetMapping("/{store-number}")
-    public ResponseEntity<?> findStore(@PathVariable("store-number") int storeNumber) {
-        StoreResponseDto storeResponseDto = storeService.findStore(storeNumber);
-        System.out.println("storeNumber : "+storeResponseDto);
+    @Transactional
+    public ResponseEntity<?> fetchStore(@PathVariable("store-number") int storeNumber) {
+
+        StoreResponseDto storeResponseDto = storeService.fetchStore(storeNumber);
 
         return new ResponseEntity<>(storeResponseDto, HttpStatus.OK);
 
@@ -39,17 +45,18 @@ public class StoreController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> registerStore(@RequestBody StoreRequestDto requestDto) {
+    public ResponseEntity<?> registerStore(@RequestBody StoreRequestDto storeRequestDto) {
 
-        int storeNumber = storeService.registerStore(requestDto);
+        int storeNumber = storeService.registerStore(storeRequestDto);
         return new ResponseEntity<>(storeNumber, HttpStatus.OK);
 
     }
 
-    @PutMapping("/updateStore")
-    public ResponseEntity<?> updateStore(@Valid StoreRequestDto requestDto) {
+    @PutMapping("/{store-number}")
+    public ResponseEntity<?> updateStore(@PathVariable("store-number") int storeNumber, @RequestBody StoreRequestDto storeRequestDto) {
 
-        storeService.updateStore(requestDto);
+        storeService.updateStore(storeNumber, storeRequestDto);
+
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
