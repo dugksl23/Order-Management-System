@@ -32,16 +32,11 @@ public class StoreEntity {
     @OneToMany(mappedBy = "stores")
     private Collection<OrderEntity> orders;
 
-    public StoreEntity update(StoreResponseDto StoreResponseDto) {
+    public void update(String name, int contactNumber, String address) {
 
-        return StoreEntity.builder()
-                .storeNumber(StoreResponseDto.getStoreNumber())
-                .name(StoreResponseDto.getName())
-                .entryDate(StoreResponseDto.getEntryDate())
-                .contactNumber(StoreResponseDto.getContactNumber())
-                .address(StoreResponseDto.getAddress())
-                .usageStatus(StoreResponseDto.isUsageStatus())
-                .build();
+        this.name = name;
+        this.contactNumber = contactNumber;
+        this.address = address;
 
     }
 

@@ -37,10 +37,12 @@ public class StoreControllerTest {
     @BeforeEach
     @DisplayName("MockMvc 객체 DI 및 UTF 설정")
     public void setup() {
+
         this.mvc = MockMvcBuilders.webAppContextSetup(ctx)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .alwaysDo(print())
                 .build();
+
     }
 
     @Test
