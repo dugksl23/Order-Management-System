@@ -21,7 +21,6 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderNumber;
     private String card;
-
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime orderDateCreated;
@@ -29,12 +28,11 @@ public class OrderEntity {
     private LocalDateTime orderDateUpdated;
     private boolean usageStatus;
 
-    // 자식 Entity에서는 ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "storeNumber")
     private StoreEntity stores;
 
-    public void setStore(StoreEntity storeEntity){
+    public void setStore(StoreEntity storeEntity) {
 
         this.stores = storeEntity;
 

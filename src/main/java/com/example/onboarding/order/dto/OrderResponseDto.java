@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-// Data Binding을 할 때 getter와 setter로 한다.
 public class OrderResponseDto {
 
     private int orderNumber;
@@ -19,8 +18,6 @@ public class OrderResponseDto {
     private LocalDateTime orderDateUpdated;
     private boolean usageStatus;
     private InnerStoreResponseDto store;
-    //ManyToOne 이기에 주문별 가게는 하나일 수밖에 없다.
-    //dto끼리도 무한참조가능하기에 InnerClass로 내부에 StoreResponseDto를 만들어줌.
 
     public OrderResponseDto(OrderEntity orderEntity) {
 
@@ -33,8 +30,6 @@ public class OrderResponseDto {
 
     }
 
-    // 양방향 참조로 인해 서로 긴밀한 관계에 있기 때문에 내부 클래스로 선언.
-    // inner class는 getter의 역할만 하면 되기에 setter는 필요없다.
     @Getter
     private class InnerStoreResponseDto {
 
@@ -57,6 +52,5 @@ public class OrderResponseDto {
         }
 
     }
-
 
 }

@@ -2,7 +2,6 @@ package com.example.onboarding.store.service;
 
 
 import com.example.onboarding.common.statics.UsageStatusConfiguration;
-import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.entity.StoreEntity;
@@ -66,9 +65,7 @@ public class StoreService {
     @Transactional
     public ResponseEntity<?> deleteStore(int storeNumber) {
 
-        StoreEntity storeEntity = storeRepository.findById(storeNumber)
-                .orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
-
+        storeRepository.findById(storeNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
         storeRepository.updateUsageStatus(storeNumber);
 
         return new ResponseEntity<>(HttpStatus.OK);

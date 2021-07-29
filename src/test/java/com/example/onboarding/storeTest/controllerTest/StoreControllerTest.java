@@ -4,7 +4,6 @@ package com.example.onboarding.storeTest.controllerTest;
 import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
-import com.example.onboarding.store.entity.StoreEntity;
 import com.example.onboarding.store.service.StoreService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -12,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -38,9 +38,10 @@ public class StoreControllerTest {
     private WebApplicationContext ctx;
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private StoreService storeService;
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @BeforeEach
@@ -61,7 +62,7 @@ public class StoreControllerTest {
         // given...
         for (int i = 0; i < 10; i++) {
 
-            StoreRequestDto storeRequestDtoTest = new StoreRequestDto(0,"백종원의 백반집" + i, 2233, "종로구", UsageStatusConfiguration.USAGE_STATUS);
+            StoreRequestDto storeRequestDtoTest = new StoreRequestDto(0, "백종원의 백반집" + i, 2233, "종로구", UsageStatusConfiguration.USAGE_STATUS);
 
             // when...
             MvcResult result = mvc.perform(
@@ -75,11 +76,12 @@ public class StoreControllerTest {
                     .andDo(print())
                     .andReturn();
 
-        }
+            // then...
+            String content = result.getResponse().getContentAsString();
+            org.springframework.util.Assert.notNull(content);
+            logger.error("error {}", content);
 
-        // @ModelAttribute는 request의 Body의 값을 dto 객체로 바인딩하지 못한다.
-        // 파라미터로 값으로 dto객체의 field에 바인딩을 하는 방식이다. 또한 dto에는 setter가 있어야 한다.
-        // 반면, RequestBody는 post의 body에 json이나, xml 값을 java의 object로 messageConverter를 반드시 거쳐 dto타입으로 바꿔서 바인딩한다.
+        }
 
     }
 
@@ -99,8 +101,10 @@ public class StoreControllerTest {
                 .andDo(print())
                 .andReturn();
 
+        // then...
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
+        logger.error("error {}", content);
 
     }
 
@@ -117,8 +121,10 @@ public class StoreControllerTest {
                 .andDo(print())
                 .andReturn();
 
+        // then...
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
+        logger.error("error {}", content);
 
     }
 
@@ -138,8 +144,10 @@ public class StoreControllerTest {
                 .andDo(print())
                 .andReturn();
 
+        // then...
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
+        logger.error("error {}", content);
 
     }
 
@@ -153,8 +161,6 @@ public class StoreControllerTest {
         dto.setAddress("강남구");
         dto.setName("백종원의 국밥집");
 
-
-
         // when...
         MvcResult result = mvc.perform(
                 MockMvcRequestBuilders.put("/store/" + storeNumber)
@@ -165,10 +171,11 @@ public class StoreControllerTest {
                 .andDo(print())
                 .andReturn();
 
+        // then...
         String content = result.getResponse().getContentAsString();
         Assert.assertNotNull(content);
+        logger.error("error {}", content);
 
     }
-
-
+    
 }

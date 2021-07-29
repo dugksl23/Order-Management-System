@@ -20,12 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -47,10 +46,12 @@ public class OrderControllerTest {
     @BeforeEach
     @DisplayName("MockMvc 객체 DI 및 UTF 설정")
     public void setup() {
+
         this.mvc = MockMvcBuilders.webAppContextSetup(ctx)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .alwaysDo(print())
                 .build();
+
     }
 
 
@@ -59,19 +60,21 @@ public class OrderControllerTest {
     public void registerOrderTest() throws Exception {
 
         // given...
-        OrderRequestDto requestDtoTest = new OrderRequestDto(0,"VISA", UsageStatusConfiguration.USAGE_STATUS);
+        OrderRequestDto requestDtoTest = new OrderRequestDto(0, "VISA", UsageStatusConfiguration.USAGE_STATUS);
         int storeNumber = 1;
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/order/store"+storeNumber)
+                MockMvcRequestBuilders.post("/order/store" + storeNumber)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDtoTest))
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())
                 .andReturn();
 
+        // then...
         String content = result.getResponse().getContentAsString();
+        Assert.notNull(content);
         logger.error("error {}", content);
 
     }
@@ -91,9 +94,9 @@ public class OrderControllerTest {
         ).andExpect(status().isOk())
                 .andReturn();
 
-
+        // then...
         String content = result.getResponse().getContentAsString();
-        System.out.println(content);
+        Assert.notNull(content);
         logger.error("error {}", content);
 
 
@@ -112,7 +115,9 @@ public class OrderControllerTest {
                 .andReturn();
 
 
+        // then...
         String content = result.getResponse().getContentAsString();
+        Assert.notNull(content);
         logger.error("error {}", content);
 
     }
@@ -124,7 +129,6 @@ public class OrderControllerTest {
         // given...
         int orderNumber = 1;
 
-
         // when...
         MvcResult result = mvc.perform(
                 MockMvcRequestBuilders.delete("/order/" + orderNumber)
@@ -133,9 +137,9 @@ public class OrderControllerTest {
         ).andExpect(status().isOk())
                 .andReturn();
 
-
+        // then...
         String content = result.getResponse().getContentAsString();
-        System.out.println("content : " + content);
+        Assert.notNull(content);
         logger.error("error {}", content);
 
     }

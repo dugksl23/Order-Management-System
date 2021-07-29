@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,8 +21,6 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
-    private Logger logger = LoggerFactory.getLogger(OrderController.class);
-
 
     @GetMapping("/{store-number}")
     public ResponseEntity<?> fetchStore(@PathVariable("store-number") int storeNumber) {
@@ -38,6 +35,7 @@ public class StoreController {
     public ResponseEntity<?> fetchAll() {
 
         List<StoreResponseDto> storeResponseList = storeService.fetchAll();
+
         return new ResponseEntity<>(storeResponseList, HttpStatus.OK);
 
     }
@@ -47,6 +45,7 @@ public class StoreController {
     public ResponseEntity<?> registerStore(@RequestBody @Valid StoreRequestDto storeRequestDto) {
 
         int storeNumber = storeService.registerStore(storeRequestDto);
+
         return new ResponseEntity<>(storeNumber, HttpStatus.OK);
 
     }

@@ -16,12 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
-@RequiredArgsConstructor //생성자 주입방식
-//noArgs, allargs -> 코드 만드는 용도이지, di 안함
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
-    private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @GetMapping("/{order-number}")
     public ResponseEntity<?> fetchOrder(@PathVariable("order-number") int orderNumber) {
@@ -45,6 +43,7 @@ public class OrderController {
     public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto requestDto, @PathVariable("store-number") int storeNumber) {
 
         int orderNumber = orderService.registerOrder(requestDto, storeNumber);
+
         return new ResponseEntity<>(orderNumber, HttpStatus.OK);
 
     }

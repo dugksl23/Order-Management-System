@@ -59,17 +59,9 @@ public class OrderService {
     @Transactional
     public void deleteOrder(int orderNumber) {
 
-        OrderEntity orderEntity = orderRepository.findById(orderNumber)
-                .orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
-        orderRepository.deleteOrderStatus(orderEntity.getOrderNumber());
+        orderRepository.findById(orderNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+        orderRepository.deleteOrderStatus(orderNumber);
 
     }
-
-    public OrderEntity findByOrderNumber(int storeNumber) {
-
-        return orderRepository.findByOrderNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).get();
-
-    }
-
 
 }

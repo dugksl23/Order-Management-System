@@ -4,7 +4,6 @@ package com.example.onboarding.scenarioTest;
 import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import com.example.onboarding.order.controller.OrderController;
 import com.example.onboarding.order.dto.OrderRequestDto;
-import com.example.onboarding.order.service.OrderService;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.service.StoreService;
@@ -256,7 +255,7 @@ public class Scenario {
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.delete("/order/"+orderNumber)
+                MockMvcRequestBuilders.delete("/order/" + orderNumber)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())
@@ -268,8 +267,6 @@ public class Scenario {
         logger.debug("debug, {}", content);
 
     }
-
-
 
 
 }
