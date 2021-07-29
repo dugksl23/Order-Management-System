@@ -2,10 +2,7 @@ package com.example.onboarding.order.dto;
 
 
 import com.example.onboarding.order.entity.OrderEntity;
-import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.entity.StoreEntity;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+// Data Binding을 할 때 getter와 setter로 한다.
 public class OrderResponseDto {
 
     private int orderNumber;
@@ -36,7 +34,8 @@ public class OrderResponseDto {
     }
 
     // 양방향 참조로 인해 서로 긴밀한 관계에 있기 때문에 내부 클래스로 선언.
-    // @Getter
+    // inner class는 getter의 역할만 하면 되기에 setter는 필요없다.
+    @Getter
     private class InnerStoreResponseDto {
 
         private int storeNumber;

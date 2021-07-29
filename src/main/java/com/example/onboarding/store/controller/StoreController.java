@@ -26,7 +26,6 @@ public class StoreController {
 
 
     @GetMapping("/{store-number}")
-    @Transactional
     public ResponseEntity<?> fetchStore(@PathVariable("store-number") int storeNumber) {
 
         StoreResponseDto storeResponseDto = storeService.fetchStore(storeNumber);
@@ -35,7 +34,7 @@ public class StoreController {
 
     }
 
-    @GetMapping("/storeList")
+    @GetMapping("/list")
     public ResponseEntity<?> fetchAll() {
 
         List<StoreResponseDto> storeResponseList = storeService.fetchAll();
@@ -45,7 +44,7 @@ public class StoreController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> registerStore(@RequestBody StoreRequestDto storeRequestDto) {
+    public ResponseEntity<?> registerStore(@RequestBody @Valid StoreRequestDto storeRequestDto) {
 
         int storeNumber = storeService.registerStore(storeRequestDto);
         return new ResponseEntity<>(storeNumber, HttpStatus.OK);
@@ -55,14 +54,13 @@ public class StoreController {
     @PutMapping("/{store-number}")
     public ResponseEntity<?> updateStore(@PathVariable("store-number") int storeNumber, @RequestBody StoreRequestDto storeRequestDto) {
 
-        storeService.updateStore(storeNumber, storeRequestDto);
+        StoreResponseDto storeResponseDto = storeService.updateStore(storeNumber, storeRequestDto);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(storeResponseDto, HttpStatus.OK);
 
     }
 
     @DeleteMapping("{store-number}")
-    @Transactional
     public ResponseEntity<?> deleteStore(@PathVariable("store-number") int storeNumber) {
 
         storeService.deleteStore(storeNumber);

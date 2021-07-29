@@ -2,6 +2,7 @@ package com.example.onboarding.store.dto;
 
 
 import com.example.onboarding.order.dto.OrderResponseDto;
+import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.store.entity.StoreEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,7 +28,7 @@ public class StoreResponseDto {
     private int contactNumber;
     private String address;
     private boolean usageStatus;
-    private Collection<OrderResponseDto> orders;
+    private Collection<InnerOrderResponseDto> orders;
 
     public StoreResponseDto(StoreEntity storeEntity) {
 
@@ -37,18 +38,38 @@ public class StoreResponseDto {
         this.contactNumber = storeEntity.getContactNumber();
         this.address = storeEntity.getAddress();
         this.usageStatus = storeEntity.isUsageStatus();
-        this.orders = this.toOrderResponseDtoList(storeEntity);
+        this.orders = toOrderResponseDtoList(storeEntity.getOrders());
 
     }
 
-    private List<OrderResponseDto> toOrderResponseDtoList(StoreEntity storeEntity) {
+    private List<InnerOrderResponseDto> toOrderResponseDtoList(List<OrderEntity> orders) {
 
-        List<OrderResponseDto> orderResponseDtoList = storeEntity.getOrders().stream()
-                .map(orderEntity -> new OrderResponseDto(orderEntity))
+        List<InnerOrderResponseDto> orderResponseDtoList = orders.stream()
+                .map(orderEntity -> new InnerOrderResponseDto(orderEntity))
                 .collect(Collectors.toList());
 
         return orderResponseDtoList;
 
+    }
+
+    @Getter
+    private class InnerOrderResponseDto {
+
+        private int orderNumber;
+        private String card;
+        private LocalDateTime orderDateCreated;
+        private LocalDateTime orderDateUpdated;
+        private boolean usageStatus;
+
+        public InnerOrderResponseDto(OrderEntity orderEntity) {
+
+            this.orderNumber = orderEntity.getOrderNumber();
+            this.card = orderEntity.getCard();
+            this.orderDateCreated = orderEntity.getOrderDateCreated();
+            this.orderDateUpdated = orderEntity.getOrderDateUpdated();
+            this.usageStatus = orderEntity.isUsageStatus();
+
+        }
     }
 
 }

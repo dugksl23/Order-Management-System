@@ -16,7 +16,7 @@ public interface StoreRepository extends JpaRepository<StoreEntity, Integer> {
     List<StoreEntity> findAllByUsageStatus(boolean usageStatus);
 
     @Modifying
-    @Query(value = "UPDATE StoreEntity s set s.usageStatus = true where s.storeNumber = :storeNumber")
+    @Query(value = "UPDATE StoreEntity s set s.usageStatus = false where s.storeNumber = :storeNumber")
     void updateUsageStatus(int storeNumber);
 
 }

@@ -2,6 +2,7 @@ package com.example.onboarding.store.service;
 
 
 import com.example.onboarding.common.statics.UsageStatusConfiguration;
+import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.entity.StoreEntity;
@@ -52,31 +53,26 @@ public class StoreService {
     }
 
     @Transactional
-    public ResponseEntity<?> updateStore(int storeNumber, StoreRequestDto storeRequestDto) {
+    public StoreResponseDto updateStore(int storeNumber, StoreRequestDto storeRequestDto) {
 
-        StoreEntity storeEntity = storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+        StoreEntity storeEntity = storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS)
+                .orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
         storeEntity.update(storeRequestDto.getName(), storeRequestDto.getContactNumber(), storeRequestDto.getAddress());
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new StoreResponseDto(storeEntity);
 
     }
 
     @Transactional
     public ResponseEntity<?> deleteStore(int storeNumber) {
 
-        StoreEntity storeEntity = storeRepository.findById(storeNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
-        storeEntity.update(storeEntity.getName(), storeEntity.getContactNumber(), storeEntity.getAddress());
-        //storeRepository.updateUsageStatus(storeEntity.getStoreNumber());
-        // transactional annotation 덕분에 영속성이 전이가 되고 있기에 save 함수는 불필요하다.
+        StoreEntity storeEntity = storeRepository.findById(storeNumber)
+                .orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+
+        storeRepository.updateUsageStatus(storeNumber);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-
-    public StoreEntity findByStoreNumber(int storeNumber) {
-
-        return storeRepository.findByStoreNumberAndUsageStatus(storeNumber, UsageStatusConfiguration.USAGE_STATUS).get();
-    }
-
 
 }

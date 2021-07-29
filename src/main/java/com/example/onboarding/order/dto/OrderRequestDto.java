@@ -10,9 +10,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Setter
 public class OrderRequestDto {
 
-
+    @NotNull
+    private int orderNumber = 0;
     @NotNull
     private String card;
     @NotNull
@@ -21,6 +23,7 @@ public class OrderRequestDto {
     public OrderEntity toEntity() {
 
         return OrderEntity.builder()
+                .orderNumber(orderNumber)
                 .card(card)
                 .usageStatus(usageStatus)
                 .build();

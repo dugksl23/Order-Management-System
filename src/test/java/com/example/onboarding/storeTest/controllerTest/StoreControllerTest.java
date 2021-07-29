@@ -54,14 +54,14 @@ public class StoreControllerTest {
 
     }
 
-    //@Test
+    @Test
     @DisplayName("식당 정보 등록 Test")
     public void registerStoreTest() throws Exception {
 
         // given...
         for (int i = 0; i < 10; i++) {
 
-            StoreRequestDto storeRequestDtoTest = new StoreRequestDto(0, "백종원의 백반집" + i, 2233, "종로구", false);
+            StoreRequestDto storeRequestDtoTest = new StoreRequestDto(0,"백종원의 백반집" + i, 2233, "종로구", UsageStatusConfiguration.USAGE_STATUS);
 
             // when...
             MvcResult result = mvc.perform(
@@ -83,7 +83,7 @@ public class StoreControllerTest {
 
     }
 
-    @Test
+    //@Test
     @DisplayName("식당 정보 조회 Test")
     public void findStoreTest() throws Exception {
 

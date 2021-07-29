@@ -21,7 +21,7 @@ public class StoreEntity {
 
     @Id
     @Column(updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int storeNumber;
 
     private String name;

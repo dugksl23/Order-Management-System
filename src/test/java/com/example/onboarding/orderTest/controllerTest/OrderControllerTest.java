@@ -1,6 +1,7 @@
 package com.example.onboarding.orderTest.controllerTest;
 
 
+import com.example.onboarding.common.statics.UsageStatusConfiguration;
 import com.example.onboarding.order.controller.OrderController;
 import com.example.onboarding.order.dto.OrderRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,16 +54,17 @@ public class OrderControllerTest {
     }
 
 
-    //@Test
+    @Test
     @DisplayName("주문 생성 test")
     public void registerOrderTest() throws Exception {
 
         // given...
-        OrderRequestDto requestDtoTest = new OrderRequestDto("VISA", false);
+        OrderRequestDto requestDtoTest = new OrderRequestDto(0,"VISA", UsageStatusConfiguration.USAGE_STATUS);
+        int storeNumber = 1;
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/order")
+                MockMvcRequestBuilders.post("/order/store"+storeNumber)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDtoTest))
                         .accept(MediaType.APPLICATION_JSON)
@@ -74,12 +76,12 @@ public class OrderControllerTest {
 
     }
 
-    @Test
+    //@Test
     @DisplayName("주문 (개별건) 조회 test")
     public void fetchOrderTest() throws Exception {
 
         // given...
-        int orderNumber = 11;
+        int orderNumber = 3;
 
         // when...
         MvcResult result = mvc.perform(
@@ -103,7 +105,7 @@ public class OrderControllerTest {
 
         // when...
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.get("/order/orderList")
+                MockMvcRequestBuilders.get("/order/list")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())

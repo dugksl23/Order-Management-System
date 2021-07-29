@@ -27,22 +27,24 @@ public class OrderController {
     public ResponseEntity<?> fetchOrder(@PathVariable("order-number") int orderNumber) {
 
         OrderResponseDto orderResponseDto = orderService.fetchOrder(orderNumber);
+
         return new ResponseEntity<>(orderResponseDto, HttpStatus.OK);
 
     }
 
-    @GetMapping("/orderList")
+    @GetMapping("/list")
     public ResponseEntity<?> fetchAll() {
 
         List<OrderResponseDto> orderResponseList = orderService.fetchAll();
+
         return new ResponseEntity<>(orderResponseList, HttpStatus.OK);
 
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto requestDto) {
+    @PostMapping(value = "/store/{store-number}")
+    public ResponseEntity<?> registerOrder(@RequestBody @Valid OrderRequestDto requestDto, @PathVariable("store-number") int storeNumber) {
 
-        int orderNumber = orderService.registerOrder(requestDto);
+        int orderNumber = orderService.registerOrder(requestDto, storeNumber);
         return new ResponseEntity<>(orderNumber, HttpStatus.OK);
 
     }
@@ -51,6 +53,7 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@PathVariable("order-number") int orderNumber) {
 
         orderService.deleteOrder(orderNumber);
+
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
