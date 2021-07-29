@@ -3,14 +3,13 @@ package com.example.onboarding.order.dto;
 
 import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.store.dto.StoreResponseDto;
-import lombok.Builder;
+import com.example.onboarding.store.entity.StoreEntity;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,9 +20,9 @@ public class OrderResponseDto {
     private LocalDateTime orderDateCreated;
     private LocalDateTime orderDateUpdated;
     private boolean usageStatus;
-    private StoreResponseDto stores;
+    private InnerStoreResponseDto store;
     //ManyToOne 이기에 주문별 가게는 하나일 수밖에 없다.
-    //dto끼리도 무한참조가능
+    //dto끼리도 무한참조가능하기에 InnerClass로 내부에 StoreResponseDto를 만들어줌.
 
     public OrderResponseDto(OrderEntity orderEntity) {
 
@@ -32,13 +31,33 @@ public class OrderResponseDto {
         this.orderDateCreated = orderEntity.getOrderDateCreated();
         this.orderDateUpdated = orderEntity.getOrderDateUpdated();
         this.usageStatus = orderEntity.isUsageStatus();
-        this.stores = toStoreResponseDto(orderEntity);
+        this.store = new InnerStoreResponseDto(orderEntity.getStores());
 
     }
 
-    private StoreResponseDto toStoreResponseDto(OrderEntity orderEntity) {
+    // 양방향 참조로 인해 서로 긴밀한 관계에 있기 때문에 내부 클래스로 선언.
+    // @Getter
+    private class InnerStoreResponseDto {
 
-        return new StoreResponseDto(orderEntity.getStores());
+        private int storeNumber;
+        private String name;
+        private LocalDateTime entryDate;
+        private int contactNumber;
+        private String address;
+        private boolean usageStatus;
+
+        public InnerStoreResponseDto(StoreEntity storeEntity) {
+
+            this.storeNumber = storeEntity.getStoreNumber();
+            this.name = storeEntity.getName();
+            this.entryDate = storeEntity.getEntryDate();
+            this.contactNumber = storeEntity.getStoreNumber();
+            this.address = storeEntity.getAddress();
+            this.usageStatus = storeEntity.isUsageStatus();
+
+        }
 
     }
+
+
 }
