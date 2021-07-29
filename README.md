@@ -31,7 +31,7 @@
   * Spring Boot gradle
   
 * **형상관리**
-  * GithuB
+  * Github
   
   
  
