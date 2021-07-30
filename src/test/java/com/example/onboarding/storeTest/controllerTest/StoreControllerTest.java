@@ -158,8 +158,8 @@ public class StoreControllerTest {
         // given...
         int storeNumber = 1;
         StoreResponseDto dto = storeService.fetchStore(storeNumber);
-        dto.setAddress("강남구");
-        dto.setName("백종원의 국밥집");
+        //dto.setAddress("강남구");
+        //dto.setName("백종원의 국밥집");
 
         // when...
         MvcResult result = mvc.perform(

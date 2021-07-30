@@ -19,4 +19,5 @@ public interface StoreRepository extends JpaRepository<StoreEntity, Integer> {
     @Query(value = "UPDATE StoreEntity s set s.usageStatus = false where s.storeNumber = :storeNumber")
     void updateUsageStatus(int storeNumber);
 
+
 }

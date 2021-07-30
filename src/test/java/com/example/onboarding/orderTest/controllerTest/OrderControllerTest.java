@@ -60,7 +60,10 @@ public class OrderControllerTest {
     public void registerOrderTest() throws Exception {
 
         // given...
-        OrderRequestDto requestDtoTest = new OrderRequestDto(0, "VISA", UsageStatusConfiguration.USAGE_STATUS);
+        OrderRequestDto requestDtoTest = OrderRequestDto.builder()
+                .card("VISA")
+                .usageStatus(UsageStatusConfiguration.USAGE_STATUS)
+                .build();
         int storeNumber = 1;
 
         // when...

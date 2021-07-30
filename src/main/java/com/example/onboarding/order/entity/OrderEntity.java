@@ -28,14 +28,12 @@ public class OrderEntity {
     private LocalDateTime orderDateUpdated;
     private boolean usageStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //EAGER와 Lazy
+    // CascdeType.All 부모 엔티티 삭제시 자식 엔티티도 삭제 관계에 대해서 알아보기.
+    @ManyToOne(fetch = FetchType.EAGER)
+    // remove - 연관관계있는 상태에서 부모 엔티티를 지우려면, 자식 엔티티부터 지워야 한다.
     @JoinColumn(name = "storeNumber")
-    private StoreEntity stores;
-
-    public void setStore(StoreEntity storeEntity) {
-
-        this.stores = storeEntity;
-
-    }
+    @Setter
+    private StoreEntity store;
 
 }

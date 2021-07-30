@@ -4,6 +4,8 @@ package com.example.onboarding.store.entity;
 import com.example.onboarding.order.entity.OrderEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,13 +24,14 @@ public class StoreEntity {
     private int storeNumber;
     private String name;
     @Column(updatable = false)
-    @CreationTimestamp
+    @CreationTimestamp // hibernate
+    @CreatedDate // spring jpa
     private LocalDateTime entryDate;
     private int contactNumber;
     private String address;
     private boolean usageStatus;
 
-    @OneToMany(mappedBy = "stores") //
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<OrderEntity> orders;
 
     public void update(String name, int contactNumber, String address) {
@@ -38,6 +41,5 @@ public class StoreEntity {
         this.address = address;
 
     }
-
 
 }

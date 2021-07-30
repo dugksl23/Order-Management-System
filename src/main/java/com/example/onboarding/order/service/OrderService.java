@@ -9,6 +9,7 @@ import com.example.onboarding.order.repository.OrderRepository;
 import com.example.onboarding.store.entity.StoreEntity;
 import com.example.onboarding.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +60,8 @@ public class OrderService {
     @Transactional
     public void deleteOrder(int orderNumber) {
 
-        orderRepository.findById(orderNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+        OrderEntity orderEntity = orderRepository.findById(orderNumber).orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
+        orderRepository.delete(orderEntity);
         orderRepository.deleteOrderStatus(orderNumber);
 
     }

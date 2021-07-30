@@ -4,12 +4,10 @@ package com.example.onboarding.order.dto;
 import com.example.onboarding.order.entity.OrderEntity;
 import com.example.onboarding.store.entity.StoreEntity;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class OrderResponseDto {
 
     private int orderNumber;
@@ -26,7 +24,7 @@ public class OrderResponseDto {
         this.orderDateCreated = orderEntity.getOrderDateCreated();
         this.orderDateUpdated = orderEntity.getOrderDateUpdated();
         this.usageStatus = orderEntity.isUsageStatus();
-        this.store = new InnerStoreResponseDto(orderEntity.getStores());
+        this.store = new InnerStoreResponseDto(orderEntity.getStore());
 
     }
 
@@ -39,6 +37,8 @@ public class OrderResponseDto {
         private int contactNumber;
         private String address;
         private boolean usageStatus;
+
+
 
         public InnerStoreResponseDto(StoreEntity storeEntity) {
 
