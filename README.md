@@ -9,6 +9,7 @@
 #### 2. 개발 환경
 #### 3. API 기능 요약
 #### 4. 시나리오 설명
+#### 5. FeedBack 반영 사항
 
 ---
 
@@ -302,3 +303,7 @@
     }
 
 ```
+
+## 4. FeedBack 반영 사항
+
+https://blog.naver.com/PostView.naver?blogId=dugksl23&Redirect=View&logNo=222451388411&categoryNo=20&isAfterWrite=true&isMrblogPost=false&isHappyBeanLeverage=true&contentLength=38430
