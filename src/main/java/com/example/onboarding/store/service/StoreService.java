@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
  스프링 컨테이너의 도움 없이 우리는 간단히 테스트 가능하다.
  예를 들면 테스트 코드 파일에서 테스트 할 레이어의 autowired를 하지 않아도
- 생성자 주입방식으로 바로 테스트가 가능하기에 테스트 시점에서 bean 등록을 할 수 있다는 점이다.
+ 생성자 주입방식으로 바로 테스트가 가능하기에 테스트 시점에서 bean 등록을 할 수 있다는 점이다..
 
 */
 public class StoreService {
