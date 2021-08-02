@@ -61,7 +61,7 @@ public class Scenario {
 
     }
 
-    //@Test
+    @Test
     @DisplayName("식당 정보 등록 Test")
     public void registerStoreTest() throws Exception {
 
@@ -100,7 +100,7 @@ public class Scenario {
                 .card("VISA")
                 .usageStatus(UsageStatusConfiguration.USAGE_STATUS)
                 .build();
-        int storeNumber = 5;
+        int storeNumber = 2;
 
             // when...
             MvcResult result = mvc.perform(
@@ -118,7 +118,7 @@ public class Scenario {
 
     }
 
-    //@Test
+    @Test
     @DisplayName("주문 조회 Scenario")
     @Transactional
     public void fetchOrderTest() throws Exception {
@@ -192,6 +192,47 @@ public class Scenario {
         // when...
         MvcResult result = mvc.perform(
                 MockMvcRequestBuilders.get("/store/list")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then..
+        String content = result.getResponse().getContentAsString();
+        Assert.assertNotNull(content);
+        logger.debug("debug, {}", content);
+
+    }
+
+
+    @Test
+    @DisplayName("모든 식당 정보 조회 Test (feat. innerJoin)")
+    public void fetchAllStoreWithInnerJoinTest() throws Exception {
+
+        // when...
+        MvcResult result = mvc.perform(
+                MockMvcRequestBuilders.get("/store/join-list")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then..
+        String content = result.getResponse().getContentAsString();
+        Assert.assertNotNull(content);
+        logger.debug("debug, {}", content);
+
+    }
+
+    @Test
+    @DisplayName("모든 식당 정보 조회 Test (feat. EntityGraph)")
+    public void fetchAllStoreWithGraph() throws Exception {
+
+        // when...
+        MvcResult result = mvc.perform(
+                MockMvcRequestBuilders.get("/store/graph-list")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk())

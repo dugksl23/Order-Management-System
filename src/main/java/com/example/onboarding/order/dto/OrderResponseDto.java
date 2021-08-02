@@ -22,7 +22,6 @@ public class OrderResponseDto {
         this.orderNumber = orderEntity.getOrderNumber();
         this.card = orderEntity.getCard();
         this.orderDateCreated = orderEntity.getOrderDateCreated();
-        this.orderDateUpdated = orderEntity.getOrderDateUpdated();
         this.usageStatus = orderEntity.isUsageStatus();
         this.store = new InnerStoreResponseDto(orderEntity.getStore());
 

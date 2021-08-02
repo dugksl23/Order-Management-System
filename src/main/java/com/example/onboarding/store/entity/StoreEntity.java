@@ -4,7 +4,7 @@ package com.example.onboarding.store.entity;
 import com.example.onboarding.order.entity.OrderEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedBy;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
+@NamedEntityGraph(name = "StoreEntity.orders", attributeNodes = @NamedAttributeNode("orders"))
 public class StoreEntity {
 
     @Id
@@ -27,11 +28,15 @@ public class StoreEntity {
     @CreationTimestamp // hibernate
     @CreatedDate // spring jpa
     private LocalDateTime entryDate;
+    @UpdateTimestamp
+    private LocalDateTime dateUpdated;
     private int contactNumber;
     private String address;
     private boolean usageStatus;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.REMOVE)
+    //@BatchSize(size = 2) // batch(묶음 처리) size 지정하여 불러온다.
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    // 즉시로딩 (EAGER) 전략으로 변경
     private List<OrderEntity> orders;
 
     public void update(String name, int contactNumber, String address) {

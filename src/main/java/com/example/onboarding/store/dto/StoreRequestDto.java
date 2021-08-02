@@ -16,8 +16,8 @@ public class StoreRequestDto {
 
     @JsonIgnore // 공통적으로 쓸 때에는 아래의 변수가 안 쓰인다면 JsonIgnore 로....
                 // 즉 해당 변수를 toString 또는 serializer 하지 않겠다는 의미.
-    @NotNull
-    private Integer storeNumber; //Int는 nullsafe이 안됨.
+    //@NotNull
+    private Integer storeNumber = 0; //Int는 nullsafe이 안됨.
     @Getter // 필요한 변수에서만 getter setter 어노테이션 사용
     @NotNull
     private String name;

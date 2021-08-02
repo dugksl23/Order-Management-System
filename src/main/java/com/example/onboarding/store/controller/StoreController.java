@@ -29,9 +29,27 @@ public class StoreController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> fetchAll() {
+    public ResponseEntity<List<StoreResponseDto>> fetchAll() {
 
         List<StoreResponseDto> storeResponseList = storeService.fetchAll();
+
+        return new ResponseEntity<>(storeResponseList, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/join-list")
+    public ResponseEntity<List<StoreResponseDto>> fetchAllWithInnerJoin() {
+
+        List<StoreResponseDto> storeResponseList = storeService.findAllWithFetchJoin();
+
+        return new ResponseEntity<>(storeResponseList, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/graph-list")
+    public ResponseEntity<List<StoreResponseDto>> fetchAllWithGraph() {
+
+        List<StoreResponseDto> storeResponseList = storeService.findAllWithGraph();
 
         return new ResponseEntity<>(storeResponseList, HttpStatus.OK);
 

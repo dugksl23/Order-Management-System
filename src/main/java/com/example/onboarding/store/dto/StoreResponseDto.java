@@ -51,7 +51,6 @@ public class StoreResponseDto {
         private int orderNumber;
         private String card;
         private LocalDateTime orderDateCreated;
-        private LocalDateTime orderDateUpdated;
         private boolean usageStatus;
 
         public InnerOrderResponseDto(OrderEntity orderEntity) {
@@ -59,7 +58,6 @@ public class StoreResponseDto {
             this.orderNumber = orderEntity.getOrderNumber();
             this.card = orderEntity.getCard();
             this.orderDateCreated = orderEntity.getOrderDateCreated();
-            this.orderDateUpdated = orderEntity.getOrderDateUpdated();
             this.usageStatus = orderEntity.isUsageStatus();
 
         }

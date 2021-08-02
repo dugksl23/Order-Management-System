@@ -6,8 +6,8 @@ import com.example.onboarding.store.dto.StoreRequestDto;
 import com.example.onboarding.store.dto.StoreResponseDto;
 import com.example.onboarding.store.entity.StoreEntity;
 import com.example.onboarding.store.repository.StoreRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.junit.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 /** @RequiredConstructor 를 통한 final 변수의 생성자 주입방식을 쓰는 이유
 1. 단일 책임 원칙
- 하나의 객체는 하나의 기능만을 관리 또는 수행되어져야 한다. ex) StoreRepository storeRepository
- 즉, 하나의 객체만 갖는다는 것은 하나의 객체로 하나의 기능만을 독립적으로 수행함을 의미한다.
- 객체가 많다는 것은 많은 클래스가 많은 책임을 갖는다는 것을 의미한다.
+하나의 객체는 하나의 기능만을 관리 또는 수행되어져야 한다. ex) StoreRepository storeRepository
+즉, 하나의 객체만 갖는다는 것은 하나의 객체로 하나의 기능만을 독립적으로 수행함을 의미한다.
+객체가 많다는 것은 많은 클래스가 많은 책임을 갖는다는 것을 의미한다.
 
- 2. fianl 키워드 사용
+2. fianl 키워드 사용
  @Autowired와 같이 field injection을 사용할 때에는 final 키워드를 사용할 수 없지만,
  consturctor injection을 사용할 때에는 final 키워드를 사용 가능.
  그렇기에 immutable 하게 사용 가능.
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  예를 들면 테스트 코드 파일에서 테스트 할 레이어의 autowired를 하지 않아도
  생성자 주입방식으로 바로 테스트가 가능하기에 테스트 시점에서 bean 등록을 할 수 있다는 점이다..
 
-*/
+ */
 public class StoreService {
 
     private final StoreRepository storeRepository;
@@ -60,13 +60,34 @@ public class StoreService {
 
     public List<StoreResponseDto> fetchAll() {
 
-        List<StoreResponseDto> storeList = storeRepository.findAllByUsageStatus(UsageStatusConfiguration.USAGE_STATUS)
-                .stream()
-                .map(StoreResponseDto::new)
-                .collect(Collectors.toList());
+        List<StoreResponseDto> storeList =
+                storeRepository.findAllByUsageStatus(UsageStatusConfiguration.USAGE_STATUS)
+                        .stream()
+                        .map(StoreResponseDto::new)
+                        .collect(Collectors.toList());
 
         return storeList;
 
+    }
+
+
+    public List<StoreResponseDto> findAllWithFetchJoin() {
+        List<StoreResponseDto> storeList =
+                storeRepository.findAllByUsageStatusWithInnerJoin(UsageStatusConfiguration.USAGE_STATUS).stream()
+                        .distinct()
+                        .map(StoreResponseDto::new)
+                        .collect(Collectors.toList());
+
+        return storeList;
+    }
+
+    public List<StoreResponseDto> findAllWithGraph() {
+        List<StoreResponseDto> storeList =
+                storeRepository.findAll().stream()
+                        .map(StoreResponseDto::new)
+                        .collect(Collectors.toList());
+
+        return storeList;
     }
 
 
@@ -85,7 +106,6 @@ public class StoreService {
                 .orElseThrow(() -> new NullPointerException("조회 정보가 없습니다."));
 
         storeEntity.update(storeRequestDto.getName(), storeRequestDto.getContactNumber(), storeRequestDto.getAddress());
-        // *enum class를 통해서 상수값 관리.
 
         return new StoreResponseDto(storeEntity);
 
