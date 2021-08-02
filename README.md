@@ -6,10 +6,11 @@
 
 # 목차
 #### 1. 프로젝트 소개
-#### 2. 개발 환경
-#### 3. API 기능 요약
-#### 4. 시나리오 설명
-#### 5. FeedBack 반영 사항
+#### 2. ERD 다이어그램
+#### 3. 개발 환경
+#### 4. API 기능 요약
+#### 5. 시나리오 설명
+#### 6. FeedBack 반영 사항
 
 ---
 
@@ -18,6 +19,11 @@
 스프링과 JPA를 활용한 식당 관리 및 주문 현황을 확인할 수 있는 간단한 서비스 구현.
 
 ## 2. 개발 환경
+
+<img width="1075" alt="스크린샷 2021-08-02 오전 11 35 10" src="https://user-images.githubusercontent.com/68539491/127797124-0a2ae0bb-53e7-4120-b755-86102f3fe259.png">
+
+
+## 3. 개발 환경
 
 * **Java EE IDE** 
   * Intelli J
@@ -36,9 +42,9 @@
   
   
  
-## 3. API 기능 요약
+## 4. API 기능 요약
 
-#### 1. **게시판**
+#### 1. 
  - Store
     1) Store 정보 등록
     2) Store 개별 조회
@@ -53,7 +59,7 @@
     4) Order 정보 삭제
 
 
-## 4. 시나리오 설명
+## 5. 시나리오 설명
 
 1) 10건의 Store 정보를 등록
 <br>
@@ -304,6 +310,6 @@
 
 ```
 
-## 4. FeedBack 반영 사항
+## 6. FeedBack 반영 사항
 
 https://blog.naver.com/PostView.naver?blogId=dugksl23&Redirect=View&logNo=222451388411&categoryNo=20&isAfterWrite=true&isMrblogPost=false&isHappyBeanLeverage=true&contentLength=38430
