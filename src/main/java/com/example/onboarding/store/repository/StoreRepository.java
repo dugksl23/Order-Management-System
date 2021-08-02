@@ -27,4 +27,5 @@ public interface StoreRepository extends JpaRepository<StoreEntity, Integer> {
     @EntityGraph(value = "StoreEntity.orders")
     List<StoreEntity> findAll();
 
+
 }
